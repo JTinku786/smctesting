@@ -1,3 +1,6 @@
+import subprocess
+import sys
+
 import streamlit as st
 
 st.title("SMC Import Check")
