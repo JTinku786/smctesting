@@ -3,28 +3,15 @@ import sys
 
 import streamlit as st
 
-
-def ensure_smartmoneyconcepts() -> bool:
-    """Install smartmoneyconcepts without dependencies if it's missing."""
-    try:
-        import smartmoneyconcepts  # noqa: F401
-        return True
-    except ModuleNotFoundError:
-        try:
-            subprocess.check_call(
-                [sys.executable, "-m", "pip", "install", "smartmoneyconcepts", "--no-deps"]
-            )
-            import smartmoneyconcepts  # noqa: F401
-            return True
-        except Exception:
-            return False
-
-
 st.title("SMC Import Check")
-if ensure_smartmoneyconcepts():
-    st.success("smartmoneyconcepts is available.")
-else:
-    st.error(
-        "smartmoneyconcepts could not be imported or installed. "
-        "Try running: pip install smartmoneyconcepts --no-deps"
+
+try:
+    import smartmoneyconcepts as smc  # noqa: F401
+    st.success("smartmoneyconcepts imported successfully.")
+except Exception as exc:
+    st.error("smartmoneyconcepts import failed.")
+    st.code(f"{type(exc).__name__}: {exc}")
+    st.info(
+        "Install dependency in your environment before starting the app:\n"
+        "pip install smartmoneyconcepts --no-deps"
     )
